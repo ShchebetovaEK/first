@@ -1,4 +1,4 @@
-package by.tms.project.entity;
+package by.tms.project.entity.user;
 
 import java.time.LocalDate;
 
@@ -66,10 +66,12 @@ public class Doctor extends User {
 
     @Override
     public String toString() {
-        return "Doctor{" +
-                "category='" + category + '\'' +
-                ", experience='" + experience + '\'' +
-                ", speciality=" + speciality +
-                '}';
+        final StringBuilder sb = new StringBuilder("Doctor{");
+        sb.append("category='").append(category).append('\'');
+        sb.append(", experience='").append(experience).append('\'');
+        sb.append(", speciality=").append(speciality);
+        sb.append('}');
+        return sb.toString();
     }
+
 }

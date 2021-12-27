@@ -1,8 +1,8 @@
-package by.tms.project.entity;
+package by.tms.project.entity.user;
 
 import java.time.LocalDate;
 
-public class User {
+public class User extends Entity<User> {
     private long id;
     private Role role;
     private String login;
@@ -29,6 +29,22 @@ public class User {
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.email = email;
+    }
+
+    @Override
+    public User getCopy(User temp) {
+        return new User.UserBuilder()
+                .setId(temp.getId())
+                .setRole(temp.getRole())
+                .setLogin(temp.getLogin())
+                .setPassword(temp.getPassword())
+                .setFirstName(temp.getFirstName())
+                .setLastName(temp.getLastName())
+                .setDataBirthday(temp.getDataBirthday())
+                .setAddress(temp.getAddress())
+                .setPhoneNumber(temp.getPhoneNumber())
+                .setEmail(temp.getEmail())
+                .createUser();
     }
 
     public long getId() {
@@ -147,17 +163,91 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", role=" + role +
-                ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", dataBirthday=" + dataBirthday +
-                ", address='" + address + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", email='" + email + '\'' +
-                '}';
+        final StringBuilder sb = new StringBuilder("User{");
+        sb.append("id=").append(id);
+        sb.append(", role=").append(role);
+        sb.append(", login='").append(login).append('\'');
+        sb.append(", password='").append(password).append('\'');
+        sb.append(", firstName='").append(firstName).append('\'');
+        sb.append(", lastName='").append(lastName).append('\'');
+        sb.append(", dataBirthday=").append(dataBirthday);
+        sb.append(", address='").append(address).append('\'');
+        sb.append(", phoneNumber='").append(phoneNumber).append('\'');
+        sb.append(", email='").append(email).append('\'');
+        sb.append('}');
+        return sb.toString();
+
+    }
+
+    public static class UserBuilder {
+        private long id;
+        private Role role;
+        private String login;
+        private String password;
+        private String firstName;
+        private String lastName;
+        private LocalDate dataBirthday;
+        private String address;
+        private String phoneNumber;
+        private String email;
+
+
+        public UserBuilder() {
+
+        }
+
+        public UserBuilder setId(long id) {
+            this.id = id;
+            return this;
+        }
+
+        public UserBuilder setRole(Role role) {
+            this.role = role;
+            return this;
+        }
+
+        public UserBuilder setLogin(String login) {
+            this.login = login;
+            return this;
+        }
+
+        public UserBuilder setPassword(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public UserBuilder setFirstName(String firstName) {
+            this.firstName = firstName;
+            return this;
+        }
+
+        public UserBuilder setLastName(String lastName) {
+            this.lastName = lastName;
+            return this;
+        }
+
+        public UserBuilder setDataBirthday(LocalDate dataBirthday) {
+            this.dataBirthday = dataBirthday;
+            return this;
+        }
+
+        public UserBuilder setAddress(String address) {
+            this.address = address;
+            return this;
+        }
+
+        public UserBuilder setPhoneNumber(String phoneNumber) {
+            this.phoneNumber = phoneNumber;
+            return this;
+        }
+
+        public UserBuilder setEmail(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public User createUser() {
+            return new User(id, role, login, password, firstName, lastName, dataBirthday, address, phoneNumber, email);
+        }
     }
 }

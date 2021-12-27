@@ -1,4 +1,4 @@
-package by.tms.project.entity;
+package by.tms.project.entity.user;
 
 public enum Role {
     ADMIN,

@@ -1,8 +1,8 @@
-package by.tms.project.entity;
+package by.tms.project.entity.user;
 
 import java.time.LocalDate;
 
-public class Patient  extends  User{
+public class Patient  extends User {
  private boolean insurance;
  private long account;
 
@@ -54,9 +54,10 @@ public class Patient  extends  User{
 
     @Override
     public String toString() {
-        return "Patient{" +
-                "insurance=" + insurance +
-                ", account=" + account +
-                '}';
+        final StringBuilder sb = new StringBuilder("Patient{");
+        sb.append("insurance=").append(insurance);
+        sb.append(", account=").append(account);
+        sb.append('}');
+        return sb.toString();
     }
 }

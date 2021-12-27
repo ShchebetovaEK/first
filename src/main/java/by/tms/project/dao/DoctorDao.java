@@ -1,18 +1,15 @@
 package by.tms.project.dao;
 
-import by.tms.project.entity.Doctor;
-import by.tms.project.exception.DoctorRepeatException;
-import by.tms.project.exception.UserRepeatException;
+import by.tms.project.entity.user.Doctor;
+import by.tms.project.exception.DaoException;
 
 import java.util.List;
 
 public interface DoctorDao {
 
-    void add(Doctor doctor) throws DoctorRepeatException;
+    void add(Doctor doctor) throws DaoException;
 
-    List<Doctor> get();
+    List<Doctor> findAllDoctors();
 
-    void remove(Doctor doctor );
 
-    void update( Doctor doctor);
 }

@@ -1,4 +1,4 @@
-package by.tms.project.entity;
+package by.tms.project.entity.protocol;
 
 import java.time.LocalDate;
 
@@ -59,10 +59,11 @@ public class Protocol {
 
     @Override
     public String toString() {
-        return "Protocol{" +
-                "id=" + id +
-                ", protocolData=" + protocolData +
-                ", protocolPayer='" + protocolPayer + '\'' +
-                '}';
+        final StringBuilder sb = new StringBuilder("Protocol{");
+        sb.append("id=").append(id);
+        sb.append(", protocolData=").append(protocolData);
+        sb.append(", protocolPayer='").append(protocolPayer).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 }
