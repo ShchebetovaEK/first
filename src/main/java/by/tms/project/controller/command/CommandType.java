@@ -1,6 +1,6 @@
 package by.tms.project.controller.command;
 
-import by.tms.project.entity.user.Role;
+import by.tms.project.model.entity.Role;
 
 import java.util.ArrayList;
 import java.util.List;
