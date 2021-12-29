@@ -2,16 +2,20 @@ package by.tms.project.model.dao.impl;
 
 import by.tms.project.model.connection.CreateConnection;
 
+import by.tms.project.model.dao.AbstractDao;
+import by.tms.project.model.dao.DoctorDao;
 import by.tms.project.model.entity.Doctor;
 import by.tms.project.exception.DaoException;
+import by.tms.project.model.entity.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-public class DoctorDaoImpl {
+public class DoctorDaoImpl extends AbstractDao<Long, User> implements DoctorDao {
     private static final Logger logger = LogManager.getLogger();
     private static final String sqlAdd = "INSERT INTO doctors (category, experience, users_id, specialities_id_speciality) VALUES (?,?,?,?)";
     private static final String sqlFindAll = "SELECT  (category, experience, users_id, specialities_id_speciality) FROM doctors ";
@@ -52,4 +56,34 @@ public class DoctorDaoImpl {
     }
 
 
+    @Override
+    public List<User> findAll() throws DaoException {
+        //todo
+        return null;
+    }
+
+    @Override
+    public Optional<User> findById(Long id) throws DaoException {
+        return Optional.empty();
+    }
+
+    @Override
+    public boolean create(User entity) throws DaoException {
+        return false;
+    }
+
+    @Override
+    public boolean update(User entity) throws DaoException {
+        return false;
+    }
+
+    @Override
+    public boolean delete(Long entity) throws DaoException {
+        return false;
+    }
+
+    @Override
+    public boolean delete(User entity) throws DaoException {
+        return false;
+    }
 }

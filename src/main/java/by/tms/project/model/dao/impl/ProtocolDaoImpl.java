@@ -1,13 +1,14 @@
 package by.tms.project.model.dao.impl;
 
+import by.tms.project.exception.DaoException;
+import by.tms.project.model.dao.AbstractDao;
 import by.tms.project.model.dao.ProtocolDao;
 import by.tms.project.model.entity.Protocol;
-import by.tms.project.exception.DaoException;
 
 import java.util.List;
 import java.util.Optional;
 
-public class ProtocolDaoImpl extends ProtocolDao {
+public class ProtocolDaoImpl extends AbstractDao<Long, Protocol> implements ProtocolDao {
 
     @Override
     public List<Protocol> findAll() throws DaoException {

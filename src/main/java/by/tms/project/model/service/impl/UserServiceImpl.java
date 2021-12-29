@@ -8,12 +8,10 @@ import by.tms.project.model.entity.User;
 import by.tms.project.exception.DaoException;
 import by.tms.project.exception.ServiceException;
 import by.tms.project.model.service.UserService;
-import by.tms.project.model.util.security.PasswordEncryptor;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;

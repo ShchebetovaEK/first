@@ -1,7 +1,7 @@
 package by.tms.project.model.dao;
 
 
-public abstract  class PatientDao {
+public interface PatientDao {
 
 
 }
