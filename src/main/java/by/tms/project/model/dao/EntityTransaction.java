@@ -1,4 +1,4 @@
-package by.tms.project.model.dao.impl;
+package by.tms.project.model.dao;
 
 import by.tms.project.model.connection.CustomConnectionPool;
 import by.tms.project.model.dao.AbstractDao;

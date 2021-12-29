@@ -6,7 +6,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-import by.tms.project.model.util.PropertyLoader;
+import by.tms.project.model.util.property.PropertyLoader;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
@@ -20,10 +20,7 @@ import org.apache.logging.log4j.LogManager;
     private static final Properties property;
     private static final String DATABASE_URL;
     private static final String DATABASE_URL_PROP = "url";
-    private static final String PATH = "dbData.properties";
-//            = "jdbc:mysql://localhost/clinic?serverTimezone=Europe/Moscow";
-
-
+    private static final String PATH = "prop/dbData.properties";
 
     static {
         property = PropertyLoader.getProperty(PATH);

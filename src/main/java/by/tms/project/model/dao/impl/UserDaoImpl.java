@@ -1,6 +1,8 @@
 package by.tms.project.model.dao.impl;
 
 
+import by.tms.project.model.dao.AbstractDao;
+import by.tms.project.model.dao.ColumnName;
 import by.tms.project.model.dao.UserDao;
 import by.tms.project.model.entity.Role;
 import by.tms.project.model.entity.User;
@@ -18,7 +20,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public final class UserDaoImpl extends UserDao {
+public final class UserDaoImpl  extends AbstractDao<Long, User> implements UserDao {
     private static final Logger logger = LogManager.getLogger();
     private static final String SQL_SELECT_ALL = "SELECT users.id,users.role,users.login,users.password,users.first_name,users.last_name,users.data_birthday,users.address,users.phone_number,users.email FROM users";
     private static final String SQL_SELECT_BY_ID = "SELECT users.id,users.role,users.login,users.password,users.first_name,users.last_name,users.data_birthday,users.address,users.phone_number,users.email FROM users WHERE users.id =?";
@@ -52,6 +54,41 @@ public final class UserDaoImpl extends UserDao {
             instance = new UserDaoImpl();
         }
         return instance;
+    }
+
+
+
+    @Override
+    public List<User> findAll() throws DaoException {
+        List<User> userList = new ArrayList<>();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_ALL)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                User user = getUserInfo(resultSet);
+                userList.add(user);
+            }
+        } catch (SQLException e) {
+            logger.error(" query has failed", e);
+            throw new DaoException("query has failed", e);
+        }
+        return userList;
+    }
+
+    @Override
+    public Optional<User> findById(Long id) throws DaoException {
+        Optional<User> user = Optional.empty();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_BY_ID)) {
+            preparedStatement.setLong(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                user = Optional.of(getUserInfo(resultSet));
+            }
+        } catch (SQLException e) {
+            logger.error("query has failed", e);
+            throw new DaoException("query has failed");
+
+        }
+        return user;
     }
 
     @Override
@@ -258,38 +295,6 @@ public final class UserDaoImpl extends UserDao {
     }
 
 
-    @Override
-    public List<User> findAll() throws DaoException {
-        List<User> userList = new ArrayList<>();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_ALL)) {
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                User user = getUserInfo(resultSet);
-                userList.add(user);
-            }
-        } catch (SQLException e) {
-            logger.error(" query has failed", e);
-            throw new DaoException("query has failed", e);
-        }
-        return userList;
-    }
-
-    @Override
-    public Optional<User> findById(Long id) throws DaoException {
-        Optional<User> user = Optional.empty();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_BY_ID)) {
-            preparedStatement.setLong(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                user = Optional.of(getUserInfo(resultSet));
-            }
-        } catch (SQLException e) {
-            logger.error("query has failed", e);
-            throw new DaoException("query has failed");
-
-        }
-        return user;
-    }
 
     @Override
     public boolean create(User entity) throws DaoException {
@@ -364,6 +369,20 @@ public final class UserDaoImpl extends UserDao {
             throw new DaoException("query has failed");
         }
         return result > 0;
+    }
+
+    @Override
+    public boolean checkUserLogin(String login) throws DaoException {
+        boolean exist;
+        try(PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_BY_LOGIN)){
+            preparedStatement.setString(1,login);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            exist = resultSet.next();
+        }catch (SQLException e){
+            logger.error("",e);
+            throw new DaoException("",e);
+        }
+      return exist;
     }
 
     public User getUserInfo(ResultSet resultSet) throws SQLException {

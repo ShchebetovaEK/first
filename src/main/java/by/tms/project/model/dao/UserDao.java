@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-public abstract class UserDao extends AbstractDao<Long, User> {
+public interface UserDao  {
 
 
     public abstract Optional<User> findByLogin(String login) throws DaoException;
@@ -35,5 +35,5 @@ public abstract class UserDao extends AbstractDao<Long, User> {
 
     public abstract boolean checkOldPassword(User user, String oldPassword) throws DaoException;
 
-
+    public abstract boolean checkUserLogin(String login) throws DaoException;
 }

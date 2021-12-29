@@ -1,4 +1,4 @@
-package by.tms.project.model.dao.impl;
+package by.tms.project.model.dao;
 
 import java.rmi.StubNotFoundException;
 

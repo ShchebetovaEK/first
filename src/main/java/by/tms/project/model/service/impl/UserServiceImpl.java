@@ -1,17 +1,21 @@
 package by.tms.project.model.service.impl;
 
 import by.tms.project.model.dao.impl.UserDaoImpl;
-import by.tms.project.model.dao.impl.EntityTransaction;
+import by.tms.project.model.dao.EntityTransaction;
 import by.tms.project.model.entity.Entity;
+import by.tms.project.model.entity.Role;
 import by.tms.project.model.entity.User;
 import by.tms.project.exception.DaoException;
 import by.tms.project.exception.ServiceException;
 import by.tms.project.model.service.UserService;
+import by.tms.project.model.util.security.PasswordEncryptor;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static by.tms.project.controller.command.RequestParameter.LOGIN;
@@ -29,8 +33,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<? extends Entity> findByParameter(String parameter, String parameterValue, String commandName,
-                                                  HttpServletRequest request) throws ServiceException {
-       //todo
+                                                 HttpServletRequest request) throws ServiceException {
+//todo
         return null;
     }
 
@@ -42,13 +46,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findPatientByLogin(String login) throws ServiceException {
+    public Optional<User> findByLogin(String login) throws ServiceException {
         UserDaoImpl userDao = UserDaoImpl.getInstance();
         EntityTransaction transaction = new EntityTransaction();
-        Optional<User> patient;
+        Optional<User> optionalUser;
         try{
             transaction.begin(userDao);
-            patient = userDao.findByLogin(login);
+            optionalUser = userDao.findByLogin(login);
 
         }catch (DaoException e){
             throw new ServiceException("",e);
@@ -58,7 +62,7 @@ public class UserServiceImpl implements UserService {
             }catch (DaoException e){
                 logger.error("",e);
             }
-        } return patient;
+        } return optionalUser;
     }
 
     @Override
@@ -107,6 +111,41 @@ public class UserServiceImpl implements UserService {
                 logger.error("",e);
             }
         } return isApprove;
+    }
+
+    @Override
+    public boolean findUserByLoginAndPassword(String login, String password) throws ServiceException {
+        return false;
+    }
+
+    @Override
+    public boolean checkUserLogin(String login) throws ServiceException {
+        return false;
+    }
+
+    @Override
+    public boolean checkOldPassword(User user, String newPassword) throws ServiceException {
+         return false;
+    }
+
+    @Override
+    public long registerUser(String login, String password, Role role) throws ServiceException {
+        return 0;
+    }
+
+    @Override
+    public Optional<User> registerPatient(Map<String, String> parameters) throws ServiceException {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<User> registerDoctor(Map<String, String> parameters) throws ServiceException {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<User> findById(Long id) throws ServiceException {
+        return Optional.empty();
     }
 
 

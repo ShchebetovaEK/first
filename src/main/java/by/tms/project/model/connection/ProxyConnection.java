@@ -18,7 +18,7 @@ class ProxyConnection implements Connection {
      *
      * @param connection the connection
      */
-    ProxyConnection(Connection connection) {
+    ProxyConnection(Connection connection){
         this.connection = connection;
     }
 
@@ -64,15 +64,15 @@ class ProxyConnection implements Connection {
 
     @Override
     public void close() throws SQLException {
-        if (!connection.getAutoCommit()) {
-            connection.setAutoCommit(true);
+        if(! this.getAutoCommit()){
+            this.setAutoCommit(true);
         }
         CustomConnectionPool connectionPool = CustomConnectionPool.getInstance();
         connectionPool.releaseConnection(this);
     }
 
     /**
-     * Realy close
+     * Really close.
      *
      * @throws SQLException the sql exception
      */
@@ -286,7 +286,8 @@ class ProxyConnection implements Connection {
     }
 
     @Override
-    public void setNetworkTimeout(Executor executor, int milliseconds) throws SQLException {
+    public void setNetworkTimeout(Executor executor,
+                                  int milliseconds) throws SQLException {
         connection.setNetworkTimeout(executor, milliseconds);
     }
 
@@ -307,22 +308,22 @@ class ProxyConnection implements Connection {
 
     @Override
     public boolean setShardingKeyIfValid(ShardingKey shardingKey, ShardingKey superShardingKey, int timeout) throws SQLException {
-        return connection.setShardingKeyIfValid(shardingKey, superShardingKey, timeout);
+        return Connection.super.setShardingKeyIfValid(shardingKey, superShardingKey, timeout);
     }
 
     @Override
     public boolean setShardingKeyIfValid(ShardingKey shardingKey, int timeout) throws SQLException {
-        return connection.setShardingKeyIfValid(shardingKey, timeout);
+        return Connection.super.setShardingKeyIfValid(shardingKey, timeout);
     }
 
     @Override
     public void setShardingKey(ShardingKey shardingKey, ShardingKey superShardingKey) throws SQLException {
-        connection.setShardingKey(shardingKey, superShardingKey);
+        Connection.super.setShardingKey(shardingKey, superShardingKey);
     }
 
     @Override
     public void setShardingKey(ShardingKey shardingKey) throws SQLException {
-        connection.setShardingKey(shardingKey);
+        Connection.super.setShardingKey(shardingKey);
     }
 
     @Override

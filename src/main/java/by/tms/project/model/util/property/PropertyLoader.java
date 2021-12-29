@@ -1,4 +1,4 @@
-package by.tms.project.model.util;
+package by.tms.project.model.util.property;
 
 import by.tms.project.model.connection.CustomConnectionPool;
 import org.apache.logging.log4j.LogManager;

@@ -1,6 +1,6 @@
 package by.tms.project.model.validator;
 
-import by.tms.project.model.util.PropertyLoader;
+import by.tms.project.model.util.property.PropertyLoader;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.Map;
