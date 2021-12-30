@@ -1,7 +1,6 @@
 package by.tms.project.model.dao;
 
 import by.tms.project.model.connection.CustomConnectionPool;
-import by.tms.project.model.dao.AbstractDao;
 import by.tms.project.exception.DaoException;
 
 import java.sql.Connection;

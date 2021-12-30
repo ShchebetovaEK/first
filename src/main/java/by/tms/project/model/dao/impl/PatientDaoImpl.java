@@ -20,6 +20,14 @@ public class PatientDaoImpl  extends AbstractDao<Long,User> implements PatientDa
     private static final String sqlAdd = "INSERT INTO patients (insurance, account, users_id) VALUES (?,?,?)";
     private static final String sqlFindAll = "SELECT (insurance, account, users_id) FROM patients";
 
+    private static PatientDaoImpl instance;
+
+    public static PatientDaoImpl getInstance() {
+        if (instance == null) {
+            instance = new PatientDaoImpl();
+        }
+        return instance;
+    }
 
     public void add(Patient patient) throws DaoException {
         try (Connection connection = CreateConnection.getConnection()){

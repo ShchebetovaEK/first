@@ -67,7 +67,6 @@ public class UserServiceImpl implements UserService {
     public boolean createPatient(User user, HttpServletRequest request) throws ServiceException {
         UserDaoImpl userDao = UserDaoImpl.getInstance();
         EntityTransaction transaction = new EntityTransaction();
-
         try{
             transaction.begin(userDao);
             userDao.create(user);
