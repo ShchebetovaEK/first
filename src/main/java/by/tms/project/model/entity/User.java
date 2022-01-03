@@ -31,22 +31,6 @@ public class User extends Entity<User> {
         this.email = email;
     }
 
-    @Override
-    public User clone(User temp) {
-        return new User.UserBuilder()
-                .setId(temp.getId())
-                .setRole(temp.getRole())
-                .setLogin(temp.getLogin())
-                .setPassword(temp.getPassword())
-                .setFirstName(temp.getFirstName())
-                .setLastName(temp.getLastName())
-                .setDataBirthday(temp.getDataBirthday())
-                .setAddress(temp.getAddress())
-                .setPhoneNumber(temp.getPhoneNumber())
-                .setEmail(temp.getEmail())
-                .createUser();
-    }
-
     public long getId() {
         return id;
     }
@@ -246,7 +230,7 @@ public class User extends Entity<User> {
             return this;
         }
 
-        public User createUser() {
+        public User buildUser() {
             return new User(id, role, login, password, firstName, lastName, dataBirthday, address, phoneNumber, email);
         }
     }

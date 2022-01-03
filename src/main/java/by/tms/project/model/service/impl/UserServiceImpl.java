@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> findByLogin(String login) throws ServiceException {
-        UserDaoImpl userDao = UserDaoImpl.getInstance();
+        UserDaoImpl userDao = new UserDaoImpl();
         EntityTransaction transaction = new EntityTransaction();
         Optional<User> optionalUser;
         try{
@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean createPatient(User user, HttpServletRequest request) throws ServiceException {
-        UserDaoImpl userDao = UserDaoImpl.getInstance();
+        UserDaoImpl userDao =  new UserDaoImpl();
         EntityTransaction transaction = new EntityTransaction();
         try{
             transaction.begin(userDao);
@@ -89,7 +89,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean checkForLogIn(String login, String password) throws ServiceException {
         boolean isApprove = false;
-        UserDaoImpl dbUserDao = UserDaoImpl.getInstance();
+        UserDaoImpl dbUserDao = new UserDaoImpl();
         EntityTransaction transaction = new EntityTransaction();
 
         try {
@@ -111,8 +111,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean findUserByLoginAndPassword(String login, String password) throws ServiceException {
-        return false;
+    public Optional<User> findUserByLoginAndPassword(String login, String password) throws ServiceException {
+        return Optional.empty();
     }
 
     @Override
@@ -144,6 +144,5 @@ public class UserServiceImpl implements UserService {
     public Optional<User> findById(Long id) throws ServiceException {
         return Optional.empty();
     }
-
 
 }

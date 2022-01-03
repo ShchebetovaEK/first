@@ -84,21 +84,15 @@ public class Protocol extends Entity<Protocol> {
         return sb.toString();
     }
 
-    @Override
-    public Protocol clone(Protocol temp) {
-        return new ProtocolBuilder()
-                .setProtocolId()
-                .setProtocolData()
-                .setProtocolPayer()
-                .setProtocolCost()
-                .createProtocol();
-    }
-
     public static class ProtocolBuilder {
         private long protocolId;
         private LocalDate protocolData;
         private String protocolPayer;
         private BigDecimal protocolCost;
+
+        private Protocol protocol = new Protocol();
+
+        public ProtocolBuilder(){}
 
         public ProtocolBuilder setProtocolId() {
             this.protocolId = protocolId;
@@ -120,7 +114,7 @@ public class Protocol extends Entity<Protocol> {
             return this;
         }
 
-        public Protocol createProtocol() {
+        public Protocol buildProtocol() {
             return new Protocol(protocolId, protocolData, protocolPayer, protocolCost);
         }
     }

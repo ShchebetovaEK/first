@@ -46,7 +46,7 @@ public abstract class AbstractDao<K, T extends Entity> {
                 statement.close();
             }
         } catch (SQLException e) {
-            logger.error("Have problem with closing statment {}", e);
+            logger.error("Have problem with closing statement", e);
         }
     }
 

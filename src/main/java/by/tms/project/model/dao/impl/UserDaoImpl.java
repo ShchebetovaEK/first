@@ -1,6 +1,5 @@
 package by.tms.project.model.dao.impl;
 
-
 import by.tms.project.model.dao.AbstractDao;
 import by.tms.project.model.dao.ColumnName;
 import by.tms.project.model.dao.UserDao;
@@ -68,28 +67,23 @@ public final class UserDaoImpl extends AbstractDao<Long, User> implements UserDa
     private static final String SQL_BY_CURRENT_LOGIN = """
             SELECT users.id,users.login FROM users WHERE users.login=?""";
 
-    private static UserDaoImpl instance;
-
-    public static UserDaoImpl getInstance() {
-        if (instance == null) {
-            instance = new UserDaoImpl();
-        }
-        return instance;
-    }
-
-
     @Override
     public List<User> findAll() throws DaoException {
         List<User> userList = new ArrayList<>();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_ALL)) {
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                User user = getUserInfo(resultSet);
-                userList.add(user);
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = this.connection.prepareStatement(SQL_SELECT_ALL);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    User user = getUserInfo(resultSet);
+                    userList.add(user);
+                }
             }
         } catch (SQLException e) {
             logger.error(" query has failed", e);
             throw new DaoException("query has failed", e);
+        } finally {
+            closeStatement(preparedStatement);
         }
         return userList;
     }
@@ -97,20 +91,20 @@ public final class UserDaoImpl extends AbstractDao<Long, User> implements UserDa
     @Override
     public Optional<User> findById(Long id) throws DaoException {
         Optional<User> user = Optional.empty();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_BY_ID)) {
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = this.connection.prepareStatement(SQL_SELECT_BY_ID);
             preparedStatement.setLong(1, id);
-            try {
-                ResultSet resultSet = preparedStatement.executeQuery();
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     user = Optional.of(getUserInfo(resultSet));
                 }
-            } catch (SQLException e) {
-                logger.error("ResultSet in method findById failed", e);
             }
         } catch (SQLException e) {
             logger.error("query has failed", e);
             throw new DaoException("query has failed");
-
+        } finally {
+            closeStatement(preparedStatement);
         }
         return user;
     }
@@ -118,19 +112,20 @@ public final class UserDaoImpl extends AbstractDao<Long, User> implements UserDa
     @Override
     public Optional<User> findByLogin(String login) throws DaoException {
         Optional<User> user = Optional.empty();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_BY_ID)) {
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = this.connection.prepareStatement(SQL_SELECT_BY_ID);
             preparedStatement.setString(1, login);
-            try {
-                ResultSet resultSet = preparedStatement.executeQuery();
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     user = Optional.ofNullable(getUserInfo(resultSet));
                 }
-            } catch (SQLException e) {
-                logger.error("ResultSet in method FindByLogin failed", e);
             }
         } catch (SQLException e) {
             logger.error("findByLogin failed", e);
             throw new DaoException("findByLogin failed", e);
+        } finally {
+            closeStatement(preparedStatement);
         }
         return user;
     }
@@ -138,20 +133,20 @@ public final class UserDaoImpl extends AbstractDao<Long, User> implements UserDa
     @Override
     public Optional<User> findByPhoneNumber(String phoneNumber) throws DaoException {
         Optional<User> user = Optional.empty();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_BY_PHONE_NUMBER)) {
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = this.connection.prepareStatement(SQL_SELECT_BY_PHONE_NUMBER);
             preparedStatement.setString(1, phoneNumber);
-            try {
-                ResultSet resultSet = preparedStatement.executeQuery();
-
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     user = Optional.of(getUserInfo(resultSet));
                 }
-            } catch (SQLException e) {
-                logger.error("ResultSet in method findByPhoneNumber failed", e);
             }
         } catch (SQLException e) {
             logger.error("findByPhoneNumber failed", e);
             throw new DaoException("findByPhoneNumber failed", e);
+        } finally {
+            closeStatement(preparedStatement);
         }
         return user;
     }
@@ -159,20 +154,20 @@ public final class UserDaoImpl extends AbstractDao<Long, User> implements UserDa
     @Override
     public Optional<User> findByEmail(String email) throws DaoException {
         Optional<User> user = Optional.empty();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_BY_EMAIL)) {
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = this.connection.prepareStatement(SQL_SELECT_BY_EMAIL);
             preparedStatement.setString(1, email);
-            try {
-                ResultSet resultSet = preparedStatement.executeQuery();
-
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     user = Optional.of(getUserInfo(resultSet));
                 }
-            } catch (SQLException e) {
-                logger.error("ResultSet in method findByEmail failed", e);
             }
         } catch (SQLException e) {
             logger.error("findByEmail failed", e);
             throw new DaoException("findByEmail failed", e);
+        } finally {
+            closeStatement(preparedStatement);
         }
         return user;
     }
@@ -180,20 +175,21 @@ public final class UserDaoImpl extends AbstractDao<Long, User> implements UserDa
     @Override
     public List<User> findByFirstName(String firstName) throws DaoException {
         List<User> userList = new ArrayList<>();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_BY_FIRST_NAME)) {
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = this.connection.prepareStatement(SQL_SELECT_BY_FIRST_NAME);
             preparedStatement.setString(1, firstName);
-            try {
-                ResultSet resultSet = preparedStatement.executeQuery();
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     User user = getUserInfo(resultSet);
                     userList.add(user);
                 }
-            } catch (SQLException e) {
-                logger.error("ResultSet in method findByFirstName failed", e);
             }
         } catch (SQLException e) {
             logger.error("findByFirstName failed", e);
             throw new DaoException("findByFirstName failed", e);
+        } finally {
+            closeStatement(preparedStatement);
         }
         return userList;
     }
@@ -201,20 +197,21 @@ public final class UserDaoImpl extends AbstractDao<Long, User> implements UserDa
     @Override
     public List<User> findByLastName(String lastName) throws DaoException {
         List<User> userList = new ArrayList<>();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_BY_LAST_NAME)) {
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = this.connection.prepareStatement(SQL_SELECT_BY_LAST_NAME);
             preparedStatement.setString(1, lastName);
-            try {
-                ResultSet resultSet = preparedStatement.executeQuery();
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     User user = getUserInfo(resultSet);
                     userList.add(user);
                 }
-            } catch (SQLException e) {
-                logger.error("Resultset in method findByLastName failed", e);
             }
         } catch (SQLException e) {
             logger.error("findByLastName failed", e);
             throw new DaoException("findByLastName failed", e);
+        } finally {
+            closeStatement(preparedStatement);
         }
         return userList;
     }
@@ -222,22 +219,22 @@ public final class UserDaoImpl extends AbstractDao<Long, User> implements UserDa
     @Override
     public List<User> findByFirstNameAndRole(String firstName, Role role) throws DaoException {
         List<User> userList = new ArrayList<>();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_BY_FIRST_NAME_AND_ROLE)) {
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(SQL_SELECT_BY_FIRST_NAME_AND_ROLE);
             preparedStatement.setString(1, firstName);
             preparedStatement.setString(2, String.valueOf(role));
-            try {
-                ResultSet resultSet = preparedStatement.executeQuery();
-
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     User user = getUserInfo(resultSet);
                     userList.add(user);
                 }
-            } catch (SQLException e) {
-                logger.error("Resultset in method findByFirstNameAndRole failed", e);
             }
         } catch (SQLException e) {
             logger.error("findByFirstNameAndRole", e);
             throw new DaoException("findByFirstNameAndRole", e);
+        } finally {
+            closeStatement(preparedStatement);
         }
         return userList;
     }
@@ -246,43 +243,68 @@ public final class UserDaoImpl extends AbstractDao<Long, User> implements UserDa
     @Override
     public List<User> findByLastNameAndRole(String lastName, Role role) throws DaoException {
         List<User> userList = new ArrayList<>();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_BY_LAST_NAME_AND_ROLE)) {
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = this.connection.prepareStatement(SQL_SELECT_BY_LAST_NAME_AND_ROLE);
             preparedStatement.setString(1, lastName);
             preparedStatement.setString(2, String.valueOf(role));
-            try {
-                ResultSet resultSet = preparedStatement.executeQuery();
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     User user = getUserInfo(resultSet);
                     userList.add(user);
                 }
-            } catch (SQLException e) {
-                logger.error("Resultset in method findByLastNameAndRole", e);
             }
         } catch (SQLException e) {
             logger.error("0", e);
             throw new DaoException("", e);
+        } finally {
+            closeStatement(preparedStatement);
         }
+        return userList;
+    }
+
+    @Override
+    public List<User> findAllByRole(Role role) throws DaoException {
+        List<User> userList = new ArrayList<>();
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = this.connection.prepareStatement(SQL_SELECT_BY_LAST_NAME_AND_ROLE);
+            preparedStatement.setString(1, String.valueOf(role));
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    User user = getUserInfo(resultSet);
+                    userList.add(user);
+                }
+            }
+        } catch (SQLException e) {
+            logger.error("findAllByRole failed", e);
+            throw new DaoException("findAllByRole failed", e);
+        } finally {
+            closeStatement(preparedStatement);
+        }
+
         return userList;
     }
 
     @Override
     public boolean ifExistByLogin(String login) throws DaoException {
         byte result = 0;
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BY_CURRENT_LOGIN)) {
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = this.connection.prepareStatement(SQL_BY_CURRENT_LOGIN);
             preparedStatement.setString(1, login);
-            try {
-                ResultSet resultSet = preparedStatement.executeQuery();
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
 
                 resultSet.next();
                 if (resultSet.getString(ColumnName.USERS_LOGIN).equals(login)) {
                     result = 1;
                 }
-            } catch (SQLException e) {
-                logger.error("resultSet in method ifExistByLogin failed", e);
             }
         } catch (SQLException e) {
             logger.error("ifExistByLogin failed", e);
             throw new DaoException("ifExistByLogin failed", e);
+        } finally {
+            closeStatement(preparedStatement);
         }
         return result > 0;
     }
@@ -290,20 +312,21 @@ public final class UserDaoImpl extends AbstractDao<Long, User> implements UserDa
     @Override
     public boolean ifExistByEmail(String email) throws DaoException {
         byte result = 0;
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_BY_EMAIL)) {
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = this.connection.prepareStatement(SQL_SELECT_BY_EMAIL);
             preparedStatement.setString(1, email);
-            try {
-                ResultSet resultSet = preparedStatement.executeQuery();
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 resultSet.next();
                 if (resultSet.getString(ColumnName.USERS_EMAIL).equals(email)) {
                     result = 1;
                 }
-            } catch (SQLException e) {
-                logger.error("resultSet in method ifExistByEmail failed", e);
             }
         } catch (SQLException e) {
             logger.error("ifExistByEmail failed", e);
             throw new DaoException("ifExistByEmail failed", e);
+        } finally {
+            closeStatement(preparedStatement);
         }
         return result > 0;
     }
@@ -311,23 +334,27 @@ public final class UserDaoImpl extends AbstractDao<Long, User> implements UserDa
     @Override
     public boolean setLogin(User entity, String login) throws DaoException {
         int result;
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SET_LOGIN)) {
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(SQL_SET_LOGIN);
             preparedStatement.setString(1, login);
             preparedStatement.setLong(2, entity.getId());
             result = preparedStatement.executeUpdate();
-
         } catch (SQLException e) {
             logger.error(e);
             throw new DaoException(e);
+        } finally {
+            closeStatement(preparedStatement);
         }
         return result > 0;
-
     }
 
     @Override
     public boolean setPassword(User entity, String password) throws DaoException {
         int result = 0;
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SET_PASSWORD)) {
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = this.connection.prepareStatement(SQL_SET_PASSWORD);
             String resultPassword = PasswordEncryptor.encrypt(password);
             preparedStatement.setString(1, resultPassword);
             preparedStatement.setString(2, entity.getLogin());
@@ -335,38 +362,41 @@ public final class UserDaoImpl extends AbstractDao<Long, User> implements UserDa
         } catch (SQLException e) {
             logger.error(e);
             throw new DaoException(e);
+        } finally {
+            closeStatement(preparedStatement);
         }
         return result > 0;
-
     }
 
     @Override
     public boolean checkOldPassword(User entity, String oldPassword) throws DaoException {
         boolean result = false;
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_CHECK_OLD_PASSWORD)) {
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(SQL_CHECK_OLD_PASSWORD);
             preparedStatement.setLong(1, entity.getId());
             preparedStatement.setString(2, entity.getLogin());
-            try {
-                ResultSet resultSet = preparedStatement.executeQuery();
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 resultSet.next();
                 if (BCrypt.checkpw(oldPassword, resultSet.getString(ColumnName.USERS_PASSWORD))) {
                     result = true;
                 }
-            } catch (SQLException e) {
-                logger.error("resultset in method checkOldPassword failed", e);
             }
         } catch (SQLException e) {
             logger.error("checkOldPassword failed", e);
             throw new DaoException("checkOldPassword failed", e);
+        }finally {
+            closeStatement(preparedStatement);
         }
         return result;
     }
 
-
     @Override
     public boolean create(User entity) throws DaoException {
         int result;
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_CREATE_USER)) {
+        PreparedStatement preparedStatement =null;
+        try {
+            preparedStatement = this.connection.prepareStatement(SQL_CREATE_USER);
             preparedStatement.setString(1, String.valueOf(entity.getRole()));
             preparedStatement.setString(2, entity.getLogin());
             preparedStatement.setString(3, entity.getPassword());
@@ -377,20 +407,22 @@ public final class UserDaoImpl extends AbstractDao<Long, User> implements UserDa
             preparedStatement.setString(8, entity.getPhoneNumber());
             preparedStatement.setString(9, entity.getEmail());
             result = preparedStatement.executeUpdate();
-
         } catch (SQLException e) {
             logger.error("query has failed", e);
             throw new DaoException("query has failed");
-
+        }
+        finally {
+            closeStatement(preparedStatement);
         }
         return result > 0;
-
     }
 
     @Override
     public boolean update(User entity) throws DaoException {
         int result;
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_USER)) {
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement= this.connection.prepareStatement(SQL_UPDATE_USER);
             preparedStatement.setString(1, String.valueOf(entity.getRole()));
             preparedStatement.setString(2, entity.getLogin());
             preparedStatement.setString(3, entity.getPassword());
@@ -401,11 +433,12 @@ public final class UserDaoImpl extends AbstractDao<Long, User> implements UserDa
             preparedStatement.setString(8, entity.getPhoneNumber());
             preparedStatement.setString(9, entity.getEmail());
             result = preparedStatement.executeUpdate();
-
         } catch (SQLException e) {
             logger.error("query has failed", e);
             throw new DaoException("query has failed");
-
+        }
+        finally {
+            closeStatement(preparedStatement);
         }
         return result > 0;
     }
@@ -413,14 +446,17 @@ public final class UserDaoImpl extends AbstractDao<Long, User> implements UserDa
     @Override
     public boolean delete(Long id) throws DaoException {
         int result;
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_USER_BY_ID)) {
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement= this.connection.prepareStatement(SQL_DELETE_USER_BY_ID);
             preparedStatement.setLong(1, id);
             result = preparedStatement.executeUpdate();
-
         } catch (SQLException e) {
             logger.error("query has failed", e);
             throw new DaoException("query has failed");
-
+        }
+        finally {
+            closeStatement(preparedStatement);
         }
         return result > 0;
     }
@@ -428,12 +464,16 @@ public final class UserDaoImpl extends AbstractDao<Long, User> implements UserDa
     @Override
     public boolean delete(User entity) throws DaoException {
         int result;
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_USER_BY_ID)) {
+        PreparedStatement preparedStatement = null;
+       try { preparedStatement=this.connection.prepareStatement(SQL_DELETE_USER_BY_ID);
             preparedStatement.setLong(1, entity.getId());
             result = preparedStatement.executeUpdate();
         } catch (SQLException e) {
             logger.error("query has failed", e);
             throw new DaoException("query has failed");
+        }
+        finally {
+            closeStatement(preparedStatement);
         }
         return result > 0;
     }
@@ -441,7 +481,8 @@ public final class UserDaoImpl extends AbstractDao<Long, User> implements UserDa
     @Override
     public boolean checkUserLogin(String login) throws DaoException {
         boolean exist;
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_BY_LOGIN)) {
+        PreparedStatement preparedStatement = null;
+       try{ preparedStatement= this.connection.prepareStatement(SQL_SELECT_BY_LOGIN);
             preparedStatement.setString(1, login);
             ResultSet resultSet = preparedStatement.executeQuery();
             exist = resultSet.next();
@@ -449,6 +490,9 @@ public final class UserDaoImpl extends AbstractDao<Long, User> implements UserDa
             logger.error("", e);
             throw new DaoException("", e);
         }
+       finally {
+           closeStatement(preparedStatement);
+       }
         return exist;
     }
 
@@ -464,6 +508,6 @@ public final class UserDaoImpl extends AbstractDao<Long, User> implements UserDa
                 .setAddress(resultSet.getString(ColumnName.USERS_ADDRESS))
                 .setPhoneNumber(resultSet.getString(ColumnName.USERS_PHONE_NUMBER))
                 .setEmail(resultSet.getString(ColumnName.USERS_EMAIL))
-                .createUser());
+                .buildUser());
     }
 }

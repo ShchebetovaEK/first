@@ -1,6 +1,5 @@
 package by.tms.project.model.service;
 
-
 import by.tms.project.exception.ServiceException;
 import by.tms.project.model.entity.Entity;
 import by.tms.project.model.entity.User;
@@ -20,7 +19,7 @@ public interface AdminUserService {
 
     void closeProtocol(Long protocolId, Long patientId, Long doctorId, BigDecimal protocolCost, HttpSession session) throws ServiceException;
 
-    void createProtocol(Map <String ,String> createProtocolMap, HttpSession response) throws ServiceException;
+    void createProtocol(Map<String, String> createProtocolMap, HttpSession response) throws ServiceException;
 
 
 }

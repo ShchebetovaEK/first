@@ -79,11 +79,31 @@ public class DoctorDaoImpl extends AbstractDao<Long, User> implements DoctorDao 
 
     @Override
     public boolean delete(Long entity) throws DaoException {
+       //todo
         return false;
     }
 
     @Override
     public boolean delete(User entity) throws DaoException {
+      //todo
         return false;
+    }
+
+    @Override
+    public List<Doctor> findAllDoctorsByExperience() throws DaoException {
+        //todo
+        return null;
+    }
+
+    @Override
+    public List<Doctor> findAllByCategory() throws DaoException {
+        //todo
+        return null;
+    }
+
+    @Override
+    public List<Doctor> findBySpeciality() throws DaoException {
+        /// TODO: 31.12.2021  
+        return null;
     }
 }

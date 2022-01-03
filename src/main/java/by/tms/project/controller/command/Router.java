@@ -19,6 +19,9 @@ public class Router {
         this.type = Router.RouterType.FORWARD;
     }
 
+    public Router(String currentPage, RouterType forward) {
+    }
+
     /**
      * Get page
      *

@@ -22,7 +22,7 @@ public interface UserService {
 
     boolean checkForLogIn(String login,String password) throws ServiceException;
 
-    boolean findUserByLoginAndPassword( String login,String  password) throws ServiceException;
+ //   boolean findUserByLoginAndPassword( String login,String  password) throws ServiceException;
 
     boolean checkUserLogin (String login) throws ServiceException;
 
@@ -35,6 +35,8 @@ public interface UserService {
     Optional<User> registerDoctor (Map<String,String> parameters) throws ServiceException;
 
     Optional<User> findById(Long id) throws ServiceException;
+
+    Optional<User> findUserByLoginAndPassword( String login,String  password) throws ServiceException;
 
 
 }

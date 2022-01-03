@@ -1,6 +1,6 @@
 package by.tms.project.model.dao;
 
-public class ColumnName {
+public final class ColumnName {
 
     /* TABLE USERS*/
     public static final String USERS_ID = "users.id";

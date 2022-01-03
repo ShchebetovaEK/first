@@ -112,12 +112,15 @@ public final class CustomConnectionPool {
         deregisterDriver();
     }
 
+    /**
+     * Deregister driver.
+     */
     private void deregisterDriver(){
         DriverManager.getDrivers().asIterator().forEachRemaining(driver -> {
             try {
                 DriverManager.deregisterDriver(driver);
             } catch (SQLException e) {
-                logger.error("There are some problems with deregister driver ");
+                logger.error("There are some problems with deregister driver",e);
             }
         });
     }

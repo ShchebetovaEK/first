@@ -10,31 +10,13 @@ public class Doctor extends User  {
     public Doctor() {
     }
 
+
     public Doctor(long id, Role role, String login, String password, String firstName, String lastName, LocalDate dataBirthday,
                   String address, String phoneNumber, String email, String category, String experience, int speciality) {
         super(id, role, login, password, firstName, lastName, dataBirthday, address, phoneNumber, email);
         this.category = category;
         this.experience = experience;
         this.speciality = speciality;
-    }
-
-
-    public Doctor clone(Doctor temp) {
-        return new Doctor.DoctorBuilder()
-                 .setId(temp.getId())
-                .setRole(temp.getRole())
-                .setLogin(temp.getLogin())
-                .setPassword(temp.getPassword())
-                .setFirstName(temp.getFirstName())
-                .setLastName(temp.getLastName())
-                .setDataBirthday(temp.getDataBirthday())
-                .setAddress(temp.getAddress())
-                .setPhoneNumber(temp.getPhoneNumber())
-                .setEmail(temp.getEmail())
-                .setCategory(temp.getCategory())
-                .setExperience(temp.getExperience())
-                .setSpeciality(temp.getSpeciality())
-                .createDoctor();
     }
 
     public String getCategory() {
@@ -94,94 +76,78 @@ public class Doctor extends User  {
     }
 
     public static class DoctorBuilder {
-        private long id;
-        private Role role;
-        private String login;
-        private String password;
-        private String firstName;
-        private String lastName;
-        private LocalDate dataBirthday;
-        private String address;
-        private String phoneNumber;
-        private String email;
-        private String category;
-        private String experience;
-        private int speciality;
-
+        private Doctor doctor = new Doctor();
 
         public DoctorBuilder() {
-
         }
 
-        public Doctor.DoctorBuilder setId(long id) {
-            this.id = id;
+        public DoctorBuilder setId(long id) {
+            doctor.setId(id);
             return this;
         }
 
-        public Doctor.DoctorBuilder setRole(Role role) {
-            this.role = role;
+        public DoctorBuilder setRole(Role role) {
+            doctor.setRole(role);
             return this;
         }
 
-        public Doctor.DoctorBuilder setLogin(String login) {
-            this.login = login;
+        public DoctorBuilder setLogin(String login) {
+            doctor.setLogin(login);
             return this;
         }
 
-        public Doctor.DoctorBuilder setPassword(String password) {
-            this.password = password;
+        public DoctorBuilder setPassword(String password) {
+            doctor.setPassword(password);
             return this;
         }
 
-        public Doctor.DoctorBuilder setFirstName(String firstName) {
-            this.firstName = firstName;
+        public DoctorBuilder setFirstName(String firstName) {
+            doctor.setFirstName(firstName);
             return this;
         }
 
-        public Doctor.DoctorBuilder setLastName(String lastName) {
-            this.lastName = lastName;
+        public DoctorBuilder setLastName(String lastName) {
+            doctor.setLastName(lastName);
             return this;
         }
 
-        Doctor.DoctorBuilder setDataBirthday(LocalDate dataBirthday) {
-            this.dataBirthday = dataBirthday;
+        public DoctorBuilder setDataBirthday(LocalDate dataBirthday) {
+            doctor.setDataBirthday(dataBirthday);
             return this;
         }
 
-        public Doctor.DoctorBuilder setAddress(String address) {
-            this.address = address;
+        public DoctorBuilder setAddress(String address) {
+            doctor.setAddress(address);
             return this;
         }
 
-        public Doctor.DoctorBuilder setPhoneNumber(String phoneNumber) {
-            this.phoneNumber = phoneNumber;
+        public DoctorBuilder setPhoneNumber(String phoneNumber) {
+            doctor.setPhoneNumber(phoneNumber);
             return this;
         }
 
-        public Doctor.DoctorBuilder setEmail(String email) {
-            this.email = email;
+        public DoctorBuilder setEmail(String email) {
+            doctor.setEmail(email);
             return this;
         }
 
-        public Doctor.DoctorBuilder setCategory(String category) {
-            this.category = category;
+        public DoctorBuilder setCategory(String category) {
+            doctor.setCategory(category);
             return this;
         }
 
-        public Doctor.DoctorBuilder setExperience(String experience) {
-            this.experience = experience;
+        public DoctorBuilder setExperience(String experience) {
+            doctor.setExperience(experience);
             return this;
         }
 
-        public Doctor.DoctorBuilder setSpeciality(int speciality) {
-            this.speciality = speciality;
+        public DoctorBuilder setSpeciality(int speciality) {
+            doctor.setSpeciality(speciality);
             return this;
         }
 
-        public Doctor createDoctor() {
-            return new Doctor(id, role, login, password, firstName, lastName,
-                    dataBirthday, address, phoneNumber, email, category, experience, speciality);
+        public Doctor buildDoctor() {
+            return doctor;
         }
     }
-
 }

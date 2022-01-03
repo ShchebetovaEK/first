@@ -2,9 +2,10 @@ package by.tms.project.model.entity;
 
 import java.time.LocalDate;
 
-public class Patient  extends User {
- private boolean insurance;
- private long account;
+public class Patient extends User {
+    private boolean insurance;
+    private long account;
+
 
     public Patient() {
     }
@@ -15,24 +16,6 @@ public class Patient  extends User {
         this.insurance = insurance;
         this.account = account;
     }
-
-    public Patient clone(Patient temp) {
-        return new Patient.PatientBuilder()
-                .setId(temp.getId())
-                .setRole(temp.getRole())
-                .setLogin(temp.getLogin())
-                .setPassword(temp.getPassword())
-                .setFirstName(temp.getFirstName())
-                .setLastName(temp.getLastName())
-                .setDataBirthday(temp.getDataBirthday())
-                .setAddress(temp.getAddress())
-                .setPhoneNumber(temp.getPhoneNumber())
-                .setEmail(temp.getEmail())
-                .setInsurance(temp.isInsurance())
-                .setAccount(temp.getAccount())
-                .createPatient();
-    }
-
 
     public boolean isInsurance() {
         return insurance;
@@ -81,87 +64,73 @@ public class Patient  extends User {
 
 
     public static class PatientBuilder {
-        private long id;
-        private Role role;
-        private String login;
-        private String password;
-        private String firstName;
-        private String lastName;
-        private LocalDate dataBirthday;
-        private String address;
-        private String phoneNumber;
-        private String email;
-        private boolean insurance;
-        private long account;
-
+        private Patient patient = new Patient();
 
         public PatientBuilder() {
-
         }
 
-        public Patient.PatientBuilder setId(long id) {
-            this.id = id;
+        public PatientBuilder setId(long id) {
+            patient.setId(id);
             return this;
         }
 
-        public Patient.PatientBuilder setRole(Role role) {
-            this.role = role;
+        public PatientBuilder setRole(Role role) {
+            patient.setRole(role);
             return this;
         }
 
-        public Patient.PatientBuilder setLogin(String login) {
-            this.login = login;
+        public PatientBuilder setLogin(String login) {
+            patient.setLogin(login);
             return this;
         }
 
-        public Patient.PatientBuilder setPassword(String password) {
-            this.password = password;
+        public PatientBuilder setPassword(String password) {
+            patient.setPassword(password);
             return this;
         }
 
-        public Patient.PatientBuilder setFirstName(String firstName) {
-            this.firstName = firstName;
+        public PatientBuilder setFirstName(String firstName) {
+            patient.setFirstName(firstName);
             return this;
         }
 
-        public Patient.PatientBuilder setLastName(String lastName) {
-            this.lastName = lastName;
+        public PatientBuilder setLastName(String lastName) {
+            patient.setLastName(lastName);
             return this;
         }
 
-        public Patient.PatientBuilder setDataBirthday(LocalDate dataBirthday) {
-            this.dataBirthday = dataBirthday;
+        public PatientBuilder setDataBirthday(LocalDate dataBirthday) {
+            patient.setDataBirthday(dataBirthday);
             return this;
         }
 
-        public Patient.PatientBuilder setAddress(String address) {
-            this.address = address;
+        public PatientBuilder setAddress(String address) {
+            patient.setAddress(address);
             return this;
         }
 
-        public Patient.PatientBuilder setPhoneNumber(String phoneNumber) {
-            this.phoneNumber = phoneNumber;
+        public PatientBuilder setPhoneNumber(String phoneNumber) {
+            patient.setPhoneNumber(phoneNumber);
             return this;
         }
 
-        public Patient.PatientBuilder setEmail(String email) {
-            this.email = email;
+        public PatientBuilder setEmail(String email) {
+            patient.setEmail(email);
             return this;
         }
 
-        public Patient.PatientBuilder setInsurance(Boolean insurance) {
-            this.insurance = insurance;
+        public PatientBuilder setInsurance(Boolean insurance) {
+            patient.setInsurance(insurance);
             return this;
         }
 
         public Patient.PatientBuilder setAccount(Long account) {
-            this.account =account;
+            patient.setAccount(account);
             return this;
         }
 
-        public Patient createPatient() {
-            return new Patient(id, role, login, password, firstName, lastName,
-                    dataBirthday, address, phoneNumber, email,insurance,account);
+        public Patient buildPatient() {
+            return patient;
         }
     }
 }

@@ -5,6 +5,7 @@ import by.tms.project.model.dao.AbstractDao;
 import by.tms.project.model.dao.ProtocolDao;
 import by.tms.project.model.entity.Protocol;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,5 +39,20 @@ public class ProtocolDaoImpl extends AbstractDao<Long, Protocol> implements Prot
     @Override
     public boolean delete(Protocol entity) throws DaoException {
         return false;
+    }
+
+    @Override
+    public List<Protocol> findAllByData(LocalDate protocolData) throws DaoException {
+        return null;
+    }
+
+    @Override
+    public List<Protocol> findAllProtocolPayer(String payer) throws DaoException {
+        return null;
+    }
+
+    @Override
+    public List<Protocol> findByCost(Long cost) throws DaoException {
+        return null;
     }
 }
