@@ -269,7 +269,8 @@ public final class UserDaoImpl extends AbstractDao<Long, User> implements UserDa
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = this.connection.prepareStatement(SQL_SELECT_BY_LAST_NAME_AND_ROLE);
-            preparedStatement.setString(1, String.valueOf(role));
+            preparedStatement.setString(1, role.name());
+//                    String.valueOf(role));
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     User user = getUserInfo(resultSet);
